@@ -8,10 +8,6 @@ class PublikaFetcher < Fetcher
     FileUtils.mkdir_p PAGES_DIR
   end
 
-  def pages_left
-    most_recent_id - latest_stored_id
-  end
-
   def most_recent_id
     return @most_recent_id if @most_recent_id
     doc = Nokogiri::XML(RestClient.get(FEED_URL))
