@@ -49,18 +49,4 @@ class TimpulFetcher < Fetcher
     puts "RestClient::BadGateway caught"
     retry
   end
-
-  def run
-    setup
-    puts "Fetching Timpul. Most recent: #{most_recent_id}. Last fetched: #{latest_stored_id}."
-
-    if latest_stored_id == most_recent_id
-      puts "Nothing to fetch for Timpul"
-      return
-    end
-
-    latest_stored_id.upto(most_recent_id) do |id|
-      fetch_single(id)
-    end
-  end
 end

@@ -28,23 +28,4 @@ class UnimediaFetcher < Fetcher
   def save(page, id)
     File.write(PAGES_DIR + id.to_s, page)
   end
-
-  def fetch_single(id)
-    page = RestClient.get(link(id))
-    save(page, id)
-  end
-
-  def run
-    setup
-    puts "Fetching Unimedia. Most recent: #{most_recent_id}. Last fetched: #{latest_stored_id}."
-
-    if latest_stored_id == most_recent_id
-      puts "Nothing to fetch for Unimedia"
-      return
-    end
-
-    latest_stored_id.upto(most_recent_id) do |id|
-      fetch_single(id)
-    end
-  end
 end
