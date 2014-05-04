@@ -1,11 +1,15 @@
-require_relative "../main"
+require_relative "fetcher"
 
-class PublikaFetcher
+class PublikaFetcher < Fetcher
   PAGES_DIR = "./data/pages/publika/"
   FEED_URL  = "http://rss.publika.md/stiri.xml"
 
   def setup
     FileUtils.mkdir_p PAGES_DIR
+  end
+
+  def pages_left
+    most_recent_id - latest_stored_id
   end
 
   def most_recent_id
@@ -44,10 +48,6 @@ class PublikaFetcher
     save(page, id)
   end
 
-  def progressbar
-    @progressbar ||= ProgressBar.new(most_recent_id - latest_stored_id, :bar, :counter, :rate, :eta)
-  end
-
   def run
     setup
     puts "Fetching Publika. Most recent: #{most_recent_id}. Last fetched: #{latest_stored_id}."
@@ -59,7 +59,6 @@ class PublikaFetcher
 
     latest_stored_id.upto(most_recent_id) do |id|
       fetch_single(id)
-      progressbar.increment!
     end
   end
 end
