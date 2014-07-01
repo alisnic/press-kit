@@ -7,6 +7,9 @@ parse: fetch
 analyze: parse
 	ruby scripts/analyze.rb
 
+frequencies:
+	ruby scripts/frequencies.rb
+
 run: analyze
 	(python -m SimpleHTTPServer &)
 	sleep 1
